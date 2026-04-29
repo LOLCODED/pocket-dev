@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: oklch(0.18 0.01 260);
+  --color-panel: oklch(0.22 0.01 260);
+  --color-panel-2: oklch(0.26 0.01 260);
+  --color-border: oklch(0.32 0.01 260);
+  --color-fg: oklch(0.96 0.005 260);
+  --color-fg-muted: oklch(0.72 0.01 260);
+  --color-accent: oklch(0.72 0.16 260);
+  --color-danger: oklch(0.65 0.20 25);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
