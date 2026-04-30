@@ -12,6 +12,8 @@ const MODEL_DEFAULTS: Record<LlmProviderKind, string> = {
   ollama: "llama3.1",
 };
 
+const OLLAMA_DEFAULT_URL = "http://localhost:11434";
+
 export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const settings = useSettingsStore((s) => s.settings);
   const save = useSettingsStore((s) => s.save);
@@ -21,6 +23,7 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
   const [provider, setProvider] = useState<LlmProviderKind>("anthropic");
   const [model, setModel] = useState("");
   const [apiKey, setKey] = useState("");
+  const [ollamaBaseUrl, setOllamaBaseUrl] = useState("");
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -28,6 +31,7 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
       setProvider(settings.provider);
       setModel(settings.model);
       setKey("");
+      setOllamaBaseUrl(settings.ollama_base_url ?? "");
     }
   }, [open, settings]);
 
@@ -41,8 +45,13 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
   async function onSave() {
     setSaving(true);
     try {
-      await save({ provider, model, ollama_base_url: settings?.ollama_base_url });
-      if (apiKey.trim()) {
+      const baseUrl = ollamaBaseUrl.trim();
+      await save({
+        provider,
+        model,
+        ollama_base_url: provider === "ollama" ? (baseUrl || null) : settings?.ollama_base_url,
+      });
+      if (provider !== "ollama" && apiKey.trim()) {
         await setApiKey(provider, apiKey.trim());
       }
       toast.success("Settings saved");
@@ -88,22 +97,37 @@ export function SettingsDialog({ open, onClose }: { open: boolean; onClose: () =
           <Input value={model} onChange={(e) => setModel(e.target.value)} placeholder="claude-sonnet-4-6" />
         </div>
 
-        <div className="space-y-1.5">
-          <label className="text-xs text-(--color-fg-muted)">
-            API key {hasKey && provider === settings?.provider && (
-              <span className="text-(--color-accent) ml-1">(stored)</span>
-            )}
-          </label>
-          <Input
-            type="password"
-            value={apiKey}
-            onChange={(e) => setKey(e.target.value)}
-            placeholder={hasKey ? "•••••••••••• (leave blank to keep)" : "Paste your key"}
-          />
-          <div className="text-xs text-(--color-fg-muted)">
-            Stored securely in your operating system keychain.
+        {provider === "ollama" ? (
+          <div className="space-y-1.5">
+            <label className="text-xs text-(--color-fg-muted)">Base URL</label>
+            <Input
+              type="url"
+              value={ollamaBaseUrl}
+              onChange={(e) => setOllamaBaseUrl(e.target.value)}
+              placeholder={OLLAMA_DEFAULT_URL}
+            />
+            <div className="text-xs text-(--color-fg-muted)">
+              URL of your local Ollama server. Leave blank to use {OLLAMA_DEFAULT_URL}.
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="space-y-1.5">
+            <label className="text-xs text-(--color-fg-muted)">
+              API key {hasKey && provider === settings?.provider && (
+                <span className="text-(--color-accent) ml-1">(stored)</span>
+              )}
+            </label>
+            <Input
+              type="password"
+              value={apiKey}
+              onChange={(e) => setKey(e.target.value)}
+              placeholder={hasKey ? "•••••••••••• (leave blank to keep)" : "Paste your key"}
+            />
+            <div className="text-xs text-(--color-fg-muted)">
+              Stored securely in your operating system keychain.
+            </div>
+          </div>
+        )}
 
         <div className="flex justify-end gap-2 pt-2">
           <Button variant="secondary" onClick={onClose} disabled={saving}>
