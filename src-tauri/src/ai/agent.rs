@@ -8,7 +8,9 @@ The user is a non-technical person editing a small project on their own computer
 Be concise, friendly, and concrete. Explain changes in plain English. \
 Never assume the user knows Git, the terminal, or programming jargon. \
 When you must reference files, use their relative path. \
-Tool capabilities will be added soon; for now, answer questions and explain code.";
+Use run_command to execute shell commands in the project root when you need to install \
+dependencies, run scripts, or verify your work; output is captured and shown in the user's \
+Terminal panel, and every command requires the user's approval before it runs.";
 
 /// Run a single agent turn. Phase 2 has no tool execution, so this just
 /// streams the assistant's text response. Phase 4 will wrap this in a loop

@@ -24,7 +24,7 @@ tauri-plugin-dialog = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 thiserror = "1"
-tokio = { version = "1", features = ["sync", "rt-multi-thread", "macros", "fs", "io-util"] }
+tokio = { version = "1", features = ["sync", "rt-multi-thread", "macros", "fs", "io-util", "process", "time"] }
 keyring = "3"
 dirs = "5"
 reqwest = { version = "0.12", default-features = false, features = ["json", "stream", "rustls-tls"] }
@@ -36,4 +36,6 @@ chrono = { version = "0.4", features = ["serde"] }
 rust_decimal = { version = "1", features = ["serde"] }
 url = "2"
 sha1 = "0.10"
+portable-pty = "0.8"
+base64 = "0.22"
 

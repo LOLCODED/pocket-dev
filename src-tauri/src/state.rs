@@ -4,12 +4,15 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 use tokio::task::AbortHandle;
 
+use crate::commands::terminal::PtySession;
+
 #[derive(Default)]
 pub struct AppState {
     pub project_root: Mutex<Option<PathBuf>>,
     pub chat_aborts: Mutex<HashMap<String, AbortHandle>>,
     pub http: Arc<reqwest::Client>,
     pub db_pool: Mutex<Option<sqlx::PgPool>>,
+    pub terminals: Mutex<HashMap<String, Arc<PtySession>>>,
 }
 
 impl AppState {

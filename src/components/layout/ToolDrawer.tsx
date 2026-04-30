@@ -1,14 +1,16 @@
 import { useEffect } from "react";
-import { Database, Files, Globe, X } from "lucide-react";
+import { Database, Files, Globe, TerminalSquare, X } from "lucide-react";
 import { useWorkspaceStore, type ToolName } from "../../stores/workspaceStore";
 import { FilesPanel } from "../files/FilesPanel";
 import { DatabasePanel } from "../database/DatabasePanel";
 import { ApiPanel } from "../api/ApiPanel";
+import { TerminalPanel } from "../terminal/TerminalPanel";
 
 const titles: Record<ToolName, { label: string; icon: typeof Files }> = {
   files: { label: "Files", icon: Files },
   database: { label: "Database", icon: Database },
   api: { label: "API", icon: Globe },
+  terminal: { label: "Terminal", icon: TerminalSquare },
 };
 
 export function ToolDrawer() {
@@ -46,6 +48,7 @@ export function ToolDrawer() {
         {open === "files" && <FilesPanel />}
         {open === "database" && <DatabasePanel />}
         {open === "api" && <ApiPanel />}
+        {open === "terminal" && <TerminalPanel />}
       </div>
     </div>
   );

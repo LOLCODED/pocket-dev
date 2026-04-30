@@ -1,4 +1,4 @@
-import { Database, Files, Globe } from "lucide-react";
+import { Database, Files, Globe, TerminalSquare } from "lucide-react";
 import { useWorkspaceStore, type ToolName } from "../../stores/workspaceStore";
 import { cn } from "../../lib/utils";
 
@@ -6,6 +6,7 @@ const items: { id: ToolName; icon: typeof Files; label: string }[] = [
   { id: "files", icon: Files, label: "Files" },
   { id: "database", icon: Database, label: "Database" },
   { id: "api", icon: Globe, label: "API" },
+  { id: "terminal", icon: TerminalSquare, label: "Terminal" },
 ];
 
 export function ToolRail() {

@@ -6,3 +6,4 @@ pub mod postgres;
 pub mod project;
 pub mod settings;
 pub mod snapshot;
+pub mod terminal;
